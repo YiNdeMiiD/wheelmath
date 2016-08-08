@@ -1,12 +1,17 @@
 class MathController < ApplicationController
 
   def handler
-    lat  = params[:lat].to_i  || 0
-    long = params[:long].to_i || 0
-    @three_closets_cars = Car.close_ordered( lat, long ).first(3)
+    lat  = params[:lat].to_i  || 50
+    long = params[:long].to_i || 50
+    #так как для моделирования я взял диапазон координат lat(0, 100) и long(0, 100), 
+    #то в случае отсутствия параметров я беру середину поля
+    avalable_cars_ordered = Car.close_ordered(lat, long)
+    @car_namber           = avalable_cars_ordered.first[0]
+    @distance             = avalable_cars_ordered.first[1][:harvestine_distance]
+    @eta                  = calculate_eta(avalable_cars_ordered)
     respond_to do |format|
       format.html  { render nothing: true, status: 200 }
-      format.json  { render json: @three_closets_cars.to_json }
+      format.json  { render json: { car_number: @car_namber, distance: @distance, eta: @eta }.to_json }
     end
   end
 

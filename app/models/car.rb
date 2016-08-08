@@ -1,4 +1,4 @@
-class Car < ActiveRecord::Base
+class Car < ActiveRecord::Base 
 
   validates :number, presence: true, uniqueness: true
 
@@ -26,9 +26,12 @@ class Car < ActiveRecord::Base
   def self.close_ordered(lat, long)
     cars_with_distance = {}
     free_to_ride.each do |car|
-      distance = Math.sqrt((car.pos_lat - lat).abs**2+(car.pos_long-long).abs**2) 
-      arr_time = distance * 1.5 
-      cars_with_distance[car.number] = { harvestine_distance: distance, arrival_time: arr_time }
+      distance = Math.sqrt((car.pos_lat - lat).abs**2+(car.pos_long-long).abs**2)*rand(1.0..2.0)
+      #я использую случайный множитель от 1 до 2, чтобы имитировать дистанцию по дорогам, а не по прямой из точки А в точку Б
+      #так как не имеют доступа к вашим алгоритмам расчёта дистанции, а подключать геолокационные модули, значит чремщено усложнять модель   
+      arrival_time = distance * 1.5
+      #следуя условиям задачи, для удобства и простоты логики я обозначу полученное время в минутах( например 12.534 = 12 минут 32 секунды ) 
+      cars_with_distance[car.number] = { harvestine_distance: distance, arrival_time: arrival_time }
     end
     cars_with_distance.sort { |a, b| a[1][:arrival_time] <=> b[1][:arrival_time] }
   end  
