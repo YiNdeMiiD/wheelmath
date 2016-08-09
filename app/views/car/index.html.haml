@@ -1,0 +1,17 @@
+%h3 Активные машины
+
+= button_to "Добавить машину", action: "add_car"
+= button_to "Рандомизировать данные машин", action: "randomize_cars"
+
+%table.table
+  %tr
+    %th= 'Номер машины' 
+    %th= 'Машина свободна'
+    %th= 'Latitude'
+    %th= 'Longitude'
+  - @cars.each do |car|
+    %tr
+      %td= car.number
+      %td= car.is_free
+      %td= car.pos_lat
+      %td= car.pos_long
