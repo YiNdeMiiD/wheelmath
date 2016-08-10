@@ -10,17 +10,13 @@ gem 'turbolinks', '2.5.3'
 gem 'jbuilder', '2.2.13'
 gem 'sdoc', '0.4.1', group: :doc
 gem 'pg'
-gem 'react-rails', '~> 1.0'
-gem "therubyracer"
-gem "figaro"
+gem 'therubyracer'
+gem 'figaro'
 
 group :assets do
   gem 'coffee-rails', '4.1.1'
   gem 'sass-rails', '5.0.3'
   gem 'sass', '3.4.13'
-  gem "twitter-bootstrap-rails"
-  gem 'bootstrap-sass', '~> 3.3.6'
-  gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 end
 
 group :development, :test do

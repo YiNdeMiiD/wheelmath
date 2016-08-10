@@ -1,13 +1,31 @@
 $(document).ready(function() {
 
+  $(".lat-input").keyup(function() {
+    forceCorrectValue(".lat-input");
+  });
+
+  $(".long-input").keyup(function() {
+    forceCorrectValue(".long-input");
+  });
+
+  function forceCorrectValue(el) {
+    if ( !(/^\d+?\.?(\d+)?$/.test($(el).val())) ) {$(el).val( $(el).val().substr(0, $(el).val().length - 1) );};
+    if ($(el).val() > 100) { $(el).val(100); };
+    if ($(el).val() < 0) { $(el).val(0); };
+  };
+
   $('.request-button').click(function(){
-    var path = 'http://localhost:3000/eta.json?lat=57&long=36';
+    if ($(".lat-input").val() == "") { $(".lat-input").val(Math.random()*100) }
+    if ($(".long-input").val() == "") { $(".long-input").val(Math.random()*100) }
+    var path = 'http://localhost:3000/eta.json?lat='+$(".lat-input").val()+'&long='+$(".long-input").val();
     syncRequestJSON(path, showResponce);
   });
 
   function showResponce( responce_data ){
-    console.log('YAY!')
-    console.log( responce_data )
+    $('.сar-number').text('Номер ближайшей машины '+responce_data['car_number']);
+    $('.distanse').text('Расстояние до ближайшей машины '+responce_data['distance']);
+    $('.eta').text('Ожидаемое время прибытия '+responce_data['eta']);
+    $('.result').show();
   };
 
   function syncRequestJSON( path, callback ) {
